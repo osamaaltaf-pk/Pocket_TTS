@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket TTS | Real-Time Voice Studio</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="ri-voiceprint-fill logo-icon"></i>
+                <h1>Pocket TTS</h1>
+            </div>
+
+            <div class="voice-panel">
+                <h3>Voice</h3>
+                <div class="voice-selector" id="voiceSelector">
+                    <!-- Selected voice display -->
+                    <div class="selected-voice" id="currentVoiceDisplay">
+                        <div class="voice-avatar">A</div>
+                        <div class="voice-info">
+                            <span class="name">Alba</span>
+                            <span class="type">Standard</span>
+                        </div>
+                        <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-panel">
+                <h3>Control</h3>
+
+                <div class="control-group">
+                    <label>Chunk Size (Latency)</label>
+                    <div class="slider-container">
+                        <input type="range" id="maxTokens" min="20" max="200" value="80">
+                        <span class="value" id="maxTokensValue">80</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Speed vs. Quality</label>
+                    <div class="slider-container">
+                        <input type="range" id="speedFactor" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <span class="value" id="speedValue">1.0x</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline" id="uploadVoiceBtn">
+                    <i class="ri-upload-cloud-2-line"></i> Upload Voice
+                </button>
+                <input type="file" id="voiceFileInput" hidden accept=".wav,.mp3,.flac">
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-badge" id="connStatus">
+                    <span class="dot"></span> Connected
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-area">
+            <div class="messages-container" id="messagesContainer">
+                <!-- Welcome Message -->
+                <div class="message ai-message">
+                    <div class="avatar"><i class="ri-robot-2-fill"></i></div>
+                    <div class="bubble">
+                        <p>Hello! I'm ready to generate speech using Pocket TTS. Type anything below to hear it in
+                            real-time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea id="chatInput" placeholder="Type text to synthesize..." rows="1"></textarea>
+                    <div class="input-actions">
+                        <span class="char-count" id="charCount">0/1000</span>
+                        <button class="btn btn-primary" id="sendBtn">
+                            <i class="ri-send-plane-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Templates -->
+    <template id="userMessageTemplate">
+        <div class="message user-message">
+            <div class="bubble">
+                <p class="text-content"></p>
+            </div>
+            <div class="avatar"><i class="ri-user-3-fill"></i></div>
+        </div>
+    </template>
+
+    <template id="aiAudioTemplate">
+        <div class="message ai-message">
+            <div class="avatar"><i class="ri-voiceprint-fill"></i></div>
+            <div class="bubble audio-bubble">
+                <div class="audio-controls">
+                    <button class="play-btn"><i class="ri-play-fill"></i></button>
+                    <div class="waveform-container">
+                        <canvas class="waveform"></canvas>
+                        <div class="progress-bar"></div>
+                    </div>
+                    <span class="time">0:00</span>
+                </div>
+                <div class="metrics">
+                    <span class="metric latency" title="First Chunk Latency"><i class="ri-timer-flash-line"></i> <span
+                            class="val">-</span>ms</span>
+                    <span class="metric rtf" title="Real-Time Factor"><i class="ri-speed-line"></i> <span
+                            class="val">-</span>x</span>
+                    <button class="download-btn" title="Download WAV"><i class="ri-download-line"></i></button>
+                </div>
+                <div class="text-subtitles"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Voice Picker Modal -->
+    <div class="modal" id="voiceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Voice</h2>
+                <button class="close-btn"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="voice-grid" id="voiceGrid"></div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

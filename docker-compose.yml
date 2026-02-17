@@ -1,0 +1,37 @@
+services:
+  tts-server:
+    build: .
+    container_name: pocket-tts
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist uploaded voices
+      - ./uploaded_voices:/app/uploaded_voices
+      # Persist model cache to avoid re-downloading on restart
+      - ./model_cache:/app/model_cache
+      # Persist generated voices cache
+      - ./voices:/app/voices
+    environment:
+      - TTS_HOST=0.0.0.0
+      - TTS_PORT=8000
+      # Hugging Face Token (Optional - passing it through if set on host)
+      - HF_TOKEN=${HF_TOKEN}
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
