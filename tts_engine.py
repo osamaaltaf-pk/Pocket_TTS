@@ -3,6 +3,7 @@
 import time
 from pathlib import Path
 from typing import Optional, Union, Iterator
+import gc
 import numpy as np
 import torch
 from pocket_tts import TTSModel, export_model_state
@@ -14,6 +15,7 @@ class TTSEngine:
     
     def __init__(self):
         """Initialize the TTS engine and load the model."""
+        gc.collect()
         print("Loading Pocket TTS model...")
         start_time = time.time()
         

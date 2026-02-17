@@ -14,7 +14,13 @@ from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import gc
+import torch
 import uvicorn
+
+# Optimization: Limit torch threads during loading to save memory overhead
+torch.set_num_threads(1)
+gc.collect()
 
 import config
 from tts_engine import get_engine
@@ -97,7 +103,12 @@ async def startup_event():
     print("=" * 60)
     print("Starting Real-Time TTS Server")
     print("=" * 60)
+    
+    # Aggressive GC before loading model
+    gc.collect()
     tts_engine = get_engine()
+    gc.collect()
+    
     print(f"Server ready at http://{config.HOST}:{config.PORT}")
     print("=" * 60)
 
