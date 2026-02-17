@@ -3,7 +3,6 @@
 import time
 from pathlib import Path
 from typing import Optional, Union, Iterator
-import gc
 import numpy as np
 import torch
 from pocket_tts import TTSModel, export_model_state
@@ -15,7 +14,6 @@ class TTSEngine:
     
     def __init__(self):
         """Initialize the TTS engine and load the model."""
-        gc.collect()
         print("Loading Pocket TTS model...")
         start_time = time.time()
         
@@ -70,7 +68,7 @@ class TTSEngine:
         self.voice_cache = {}
         
         # Preload common voices
-        # self._preload_voices()
+        self._preload_voices()
     
     def _preload_voices(self):
         """Preload common pre-made voices for faster access."""

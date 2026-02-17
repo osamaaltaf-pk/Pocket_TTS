@@ -7,9 +7,9 @@ port = os.getenv("PORT", "8000")
 bind = f"0.0.0.0:{port}"
 
 # Worker configurations
-# For CPU-bound TTS, workers = 2-4 is usually good.
-# We default to 3, but allow override via env var.
-workers = int(os.getenv("GUNICORN_WORKERS", "3"))
+# For CPU-bound TTS, workers = 1-2 is best for small KVMs.
+# We default to 2, but allow override via env var.
+workers = int(os.getenv("GUNICORN_WORKERS", "2"))
 
 # Worker class
 # Uvicorn worker is required for ASGI/FastAPI
