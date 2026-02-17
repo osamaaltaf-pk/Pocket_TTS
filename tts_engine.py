@@ -68,7 +68,7 @@ class TTSEngine:
         self.voice_cache = {}
         
         # Preload common voices
-        self._preload_voices()
+        # self._preload_voices()
     
     def _preload_voices(self):
         """Preload common pre-made voices for faster access."""
