@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Real-Time TTS with Pocket TTS
 
 A real-time text-to-speech system powered by [Pocket TTS](https://github.com/kyutai-labs/pocket-tts) with streaming audio, voice cloning, and a modern web interface.
@@ -173,3 +174,6 @@ engine.export_voice("my_voice.wav", "my_voice.safetensors")
 ## License
 
 This implementation is provided as-is. Please refer to the [Pocket TTS license](https://github.com/kyutai-labs/pocket-tts) for model usage terms.
+=======
+# Pocket_TTS
+>>>>>>> b7f5be30fa2db3fc17b5ca46183e4709ef1961fe
